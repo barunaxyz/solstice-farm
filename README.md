@@ -123,7 +123,10 @@ The game is directly inspired by the **June Solstice** — the moment when the s
 
 ---
 
-## 👤 Author
+## 👥 Team / Developers
+
+1. **Baruna**
+2. **Bastian Heskia Silaban**
 
 Made for the DEV June Solstice Game Jam 2026.
 
