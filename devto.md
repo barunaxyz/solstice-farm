@@ -10,7 +10,7 @@ In this game, you have exactly one day (from dawn until dusk) to grow crops, wat
 
 ### 🎮 Play the Game!
 You can play the game directly in your browser here:
-👉 **[LINK_VERCEL_KAMU_DISINI]**
+👉 **https://solstice-farm.vercel.app/**
 
 *(Note: It may take a few seconds to load the Python engine on your first visit!)*
 
@@ -24,7 +24,7 @@ You can play the game directly in your browser here:
 ### 🎥 Gameplay Demo
 *(Kalau kamu punya video YouTube, ganti tulisan VIDEO_ID di bawah dengan ID video YouTube kamu. Contoh ID: dQw4w9WgXcQ)*
 
-{% youtube VIDEO_ID %}
+{% youtube nOMaHvbaFyA %}
 
 ---
 
