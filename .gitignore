@@ -1,4 +1,3 @@
-# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -8,19 +7,18 @@ dist/
 build/
 *.egg
 
-# Virtual environments
 venv/
 .env/
 
-# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS
 .DS_Store
 Thumbs.db
 
-# Pygame
 *.pyc
+
+public/*.apk
+public/*.tar.gz

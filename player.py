@@ -23,43 +23,43 @@ class Player:
     """Top-down player character."""
 
     def __init__(self, start_col: int, start_row: int) -> None:
-        # Position in world pixels (top-left of 32×32 bounding box)
+                                                                   
         self.x: float = start_col * T
         self.y: float = start_row * T
 
-        # Size for collision
-        self.w: int = 20   # narrower than a tile for easier navigation
-        self.h: int = 12   # short hitbox at feet level
-        self.foot_offset_x: int = 6   # offset from sprite left to hitbox left
-        self.foot_offset_y: int = 20  # offset from sprite top to hitbox top
+                            
+        self.w: int = 20                                               
+        self.h: int = 12                               
+        self.foot_offset_x: int = 6                                           
+        self.foot_offset_y: int = 20                                        
 
-        # Direction / animation
+                               
         self.direction: int = DIR_DOWN
         self.anim_timer: float = 0.0
-        self.anim_frame: int = 0   # 0=idle, 1=walk1, 2=walk2
+        self.anim_frame: int = 0                             
         self.moving: bool = False
 
-        # Tools
+               
         self.tool_index: int = 0
-        self.selected_seed: int = 0  # index into CROP_TYPES
+        self.selected_seed: int = 0                         
 
-        # Water can
+                   
         self.water: int = WATER_CAN_START
         self.water_max: int = WATER_CAN_MAX
 
-        # Energy system
+                       
         self.energy_max: float = 1000.0
         self.energy: float = 1000.0
         self.is_sleeping: bool = False
         self.sleep_timer: float = 0.0
 
-        # Action cooldown (prevents rapid-fire actions)
+                                                       
         self.action_cooldown: float = 0.0
-        self.ACTION_DELAY: float = 0.25  # seconds
+        self.ACTION_DELAY: float = 0.25           
 
-    # ------------------------------------------------------------------
-    # Properties
-    # ------------------------------------------------------------------
+                                                                        
+                
+                                                                        
 
     @property
     def current_tool(self) -> str:
@@ -107,9 +107,9 @@ class Player:
             col += 1
         return col, row
 
-    # ------------------------------------------------------------------
-    # Input
-    # ------------------------------------------------------------------
+                                                                        
+           
+                                                                        
 
     def handle_event(self, event: pygame.event.Event) -> str | None:
         """Process key events. Returns action string or None.
@@ -120,7 +120,7 @@ class Player:
             None
         """
         if event.type == pygame.KEYDOWN:
-            # Tool selection (number keys)
+                                          
             if event.key == pygame.K_1:
                 self.tool_index = 0
             elif event.key == pygame.K_2:
@@ -130,13 +130,13 @@ class Player:
             elif event.key == pygame.K_4:
                 self.tool_index = 3
 
-            # Use tool
+                      
             elif event.key == pygame.K_SPACE:
                 if self.action_cooldown <= 0:
                     self.action_cooldown = self.ACTION_DELAY
                     return "use_tool"
 
-            # Cycle seed type
+                             
             elif event.key == pygame.K_q:
                 self.selected_seed = (self.selected_seed - 1) % len(CROP_TYPES)
                 return "cycle_seed"
@@ -146,14 +146,14 @@ class Player:
 
         return None
 
-    # ------------------------------------------------------------------
-    # Update
-    # ------------------------------------------------------------------
+                                                                        
+            
+                                                                        
 
     def update(self, dt: float, is_solid_fn) -> None:
         """Move the player based on held keys; collide with solid tiles."""
         if self.is_sleeping:
-            # Energy regens faster while sleeping
+                                                 
             self.energy = min(self.energy_max, self.energy + (self.energy_max / 15.0) * dt)
             return
 
@@ -177,17 +177,17 @@ class Player:
         self.moving = dx != 0 or dy != 0
 
         if self.moving:
-            # Drain energy while moving (e.g., 5 energy per second)
+                                                                   
             self.energy = max(0.0, self.energy - 5.0 * dt)
 
-        # Normalize diagonal
+                            
         if dx != 0 and dy != 0:
             dx *= 0.7071
             dy *= 0.7071
 
         speed = PLAYER_SPEED * dt
 
-        # Move X, check collision
+                                 
         new_x = self.x + dx * speed
         new_rect = pygame.Rect(
             int(new_x) + self.foot_offset_x,
@@ -197,10 +197,10 @@ class Player:
         if not self._collides(new_rect, is_solid_fn):
             self.x = new_x
         else:
-            # Try sliding along walls
+                                     
             pass
 
-        # Move Y, check collision
+                                 
         new_y = self.y + dy * speed
         new_rect = pygame.Rect(
             int(self.x) + self.foot_offset_x,
@@ -210,23 +210,23 @@ class Player:
         if not self._collides(new_rect, is_solid_fn):
             self.y = new_y
 
-        # Clamp to world bounds
+                               
         self.x = max(0, min(self.x, (MAP_COLS - 1) * T))
         self.y = max(0, min(self.y, (MAP_ROWS - 1) * T))
 
-        # Animation
+                   
         if self.moving:
             self.anim_timer += dt
             if self.anim_timer >= 0.12:
                 self.anim_timer = 0.0
-                # Cycle through walk frames (1 .. N-1), skip frame 0 (idle)
+                                                                           
                 frames = get_player_frames(self.direction)
                 num_frames = len(frames)
                 if num_frames <= 3:
-                    # Classic 3-frame: alternate between 1 and 2
+                                                                
                     self.anim_frame = 1 if self.anim_frame != 1 else 2
                 else:
-                    # 4+ frames: cycle 1 → 2 → ... → N-1 → 1
+                                                            
                     self.anim_frame += 1
                     if self.anim_frame >= num_frames:
                         self.anim_frame = 1
@@ -236,7 +236,7 @@ class Player:
 
     def _collides(self, rect: pygame.Rect, is_solid_fn) -> bool:
         """Check if the rect overlaps any solid tile."""
-        # Check corners and midpoints of the rect
+                                                 
         points = [
             (rect.left, rect.top),
             (rect.right - 1, rect.top),
@@ -259,9 +259,9 @@ class Player:
             return True
         return False
 
-    # ------------------------------------------------------------------
-    # Drawing
-    # ------------------------------------------------------------------
+                                                                        
+             
+                                                                        
 
     def draw(self, surface: pygame.Surface, cam_ox: int, cam_oy: int) -> None:
         frames = get_player_frames(self.direction)
@@ -270,12 +270,12 @@ class Player:
 
         screen_x = int(self.x) + cam_ox
         screen_y = int(self.y) + cam_oy
-        # Offset upward so character feet align with tile position
+                                                                  
         sprite_h = sprite.get_height()
         draw_y = screen_y + T - sprite_h
         surface.blit(sprite, (screen_x, draw_y))
 
-        # Draw facing indicator (subtle)
+                                        
         fc, fr = self.facing_tile()
         ind_x = fc * T + cam_ox
         ind_y = fr * T + cam_oy

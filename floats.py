@@ -9,9 +9,9 @@ from settings import CROPS, PAL, SCREEN_H, SCREEN_W, TILE_SIZE
 T = TILE_SIZE
 
 
-# =========================================================================
-# Floating Numbers  (+15g, +35g, etc.)
-# =========================================================================
+                                                                           
+                                      
+                                                                           
 
 class FloatingText:
     """A single piece of floating text that rises and fades out."""
@@ -27,7 +27,7 @@ class FloatingText:
         self.y = y
         self.life = life
         self.max_life = life
-        self.vy = -45.0  # float upward speed
+        self.vy = -45.0                      
         self.size = size
 
     def update(self, dt: float) -> bool:
@@ -36,7 +36,7 @@ class FloatingText:
         if self.life <= 0:
             return False
         self.y += self.vy * dt
-        # Decelerate
+                    
         self.vy *= 0.97
         return True
 
@@ -86,9 +86,9 @@ class FloatingTextSystem:
             surface.blit(ts, (sx, sy))
 
 
-# =========================================================================
-# Crop Info Tooltip (shown when player faces a crop)
-# =========================================================================
+                                                                           
+                                                    
+                                                                           
 
 class CropTooltip:
     """Draws a small info panel showing crop status near the cursor."""
@@ -113,20 +113,20 @@ class CropTooltip:
         data = crop.data
         name = data["name"]
 
-        # Build info lines
+                          
         lines: list[tuple[str, tuple[int, int, int]]] = []
 
-        # Name
+              
         lines.append((name, PAL["text_gold"]))
 
-        # Progress bar text
+                           
         if crop.ready:
             lines.append(("✨ Ready to harvest!", (100, 255, 80)))
         else:
             pct = int(crop.progress * 100)
             lines.append((f"Growth: {pct}%", PAL["text_light"]))
 
-        # Water status
+                      
         if crop.needs_water and not crop.ready:
             lines.append(("💧 Needs water!", (80, 160, 240)))
         elif not crop.ready:
@@ -134,41 +134,41 @@ class CropTooltip:
             if remaining > 0:
                 lines.append((f"Waters left: {remaining}", PAL["text_dim"]))
 
-        # Solstice info
+                       
         if crop.is_solstice_only:
             from farming import get_sun_multiplier
-            # This is a bit of a hack but the tooltip doesn't have tf
+                                                                     
             lines.append(("☀ Needs peak sun to grow", (200, 140, 255)))
 
-        # Sell value
+                    
         value = data["sell_price"]
         if is_golden_hour:
             lines.append((f"Value: {value * 2}g (2x Golden!)", (255, 220, 50)))
         else:
             lines.append((f"Value: {value}g", PAL["text_dim"]))
 
-        # Calculate panel size
+                              
         line_h = 18
         pad = 8
         panel_w = 160
         panel_h = pad * 2 + len(lines) * line_h + 8
 
-        # Position: above the tile
+                                  
         sx = tile_col * T + cam_ox + T // 2 - panel_w // 2
         sy = tile_row * T + cam_oy - panel_h - 4
 
-        # Clamp to screen
+                         
         sx = max(4, min(SCREEN_W - panel_w - 4, sx))
         sy = max(4, sy)
 
-        # Draw panel
+                    
         panel = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
         panel.fill((15, 25, 18, 220))
         surface.blit(panel, (sx, sy))
         pygame.draw.rect(surface, PAL["accent"],
                          (sx, sy, panel_w, panel_h), 1, border_radius=4)
 
-        # Draw progress bar
+                           
         if not crop.ready:
             bar_x = sx + pad
             bar_y = sy + pad + line_h + 2
@@ -183,19 +183,19 @@ class CropTooltip:
                 pygame.draw.rect(surface, bar_color,
                                  (bar_x, bar_y, fill_w, bar_h), border_radius=3)
 
-        # Draw text lines
+                         
         for i, (text, color) in enumerate(lines):
             font = self.font_name if i == 0 else self.font_info
             ts = font.render(text, True, color)
             ty = sy + pad + i * line_h
             if i > 0 and not crop.ready:
-                ty += 8  # shift down after progress bar
+                ty += 8                                 
             surface.blit(ts, (sx + pad, ty))
 
 
-# =========================================================================
-# Tile Tooltip (for non-crop tiles like shop, well, etc.)
-# =========================================================================
+                                                                           
+                                                         
+                                                                           
 
 class TileTooltip:
     """Shows contextual hints for interactive tiles."""
@@ -247,11 +247,11 @@ class TileTooltip:
         sx = tile_col * T + cam_ox + T // 2 - tw // 2
         sy = tile_row * T + cam_oy - 24
 
-        # Clamp
+               
         sx = max(4, min(SCREEN_W - tw - 4, sx))
         sy = max(4, sy)
 
-        # Background
+                    
         bg = pygame.Surface((tw + 12, ts.get_height() + 6), pygame.SRCALPHA)
         bg.fill((10, 20, 15, 180))
         surface.blit(bg, (sx - 6, sy - 3))

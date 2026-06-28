@@ -11,14 +11,14 @@ class Camera:
     def __init__(self) -> None:
         self.x: float = 0.0
         self.y: float = 0.0
-        self.lerp_speed: float = 5.0  # higher = snappier follow
+        self.lerp_speed: float = 5.0                            
 
         self.world_w = MAP_COLS * TILE_SIZE
         self.world_h = MAP_ROWS * TILE_SIZE
 
-    # ------------------------------------------------------------------
-    # Public API
-    # ------------------------------------------------------------------
+                                                                        
+                
+                                                                        
 
     def update(self, target_x: float, target_y: float, dt: float) -> None:
         """Move toward *target* (player centre) with lerp smoothing."""
@@ -29,7 +29,7 @@ class Camera:
         self.x += (goal_x - self.x) * t
         self.y += (goal_y - self.y) * t
 
-        # Clamp so the camera never shows outside the map.
+                                                          
         self.x = max(0, min(self.x, self.world_w - SCREEN_W))
         self.y = max(0, min(self.y, self.world_h - SCREEN_H))
 

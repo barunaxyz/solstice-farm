@@ -24,9 +24,9 @@ def _ensure_init() -> None:
         _initialized = True
 
 
-# ---------------------------------------------------------------------------
-# Wave generators
-# ---------------------------------------------------------------------------
+                                                                             
+                 
+                                                                             
 
 def _make_sound(samples: list[int], volume: float = 0.3) -> pygame.mixer.Sound:
     """Create a Sound from a list of signed‑16‑bit samples."""
@@ -43,7 +43,7 @@ def _sine_wave(freq: float, duration: float, rate: int = 22050,
     samples = []
     for i in range(n):
         t = i / rate
-        # Envelope: fade out toward the end
+                                           
         env = max(0.0, 1.0 - (t / duration) ** fade_out)
         val = math.sin(2 * math.pi * freq * t) * 32000 * volume * env
         samples.append(int(max(-32767, min(32767, val))))
@@ -78,27 +78,27 @@ def _chirp(start_freq: float, end_freq: float, duration: float,
     return samples
 
 
-# ---------------------------------------------------------------------------
-# Sound generation
-# ---------------------------------------------------------------------------
+                                                                             
+                  
+                                                                             
 
 def _generate_all() -> None:
     """Generate all game sounds."""
     _ensure_init()
 
-    # Till sound: short noise burst
+                                   
     _sounds["till"] = _make_sound(_noise_burst(0.15, volume=0.2), 0.4)
 
-    # Water sound: low bubbling sine
+                                    
     water = _sine_wave(180, 0.25, volume=0.2, fade_out=0.5)
     water2 = _sine_wave(220, 0.15, volume=0.15, fade_out=0.4)
     combined = [a + b for a, b in zip(water, water2 + [0] * (len(water) - len(water2)))]
     _sounds["water"] = _make_sound(combined, 0.4)
 
-    # Plant sound: soft upward chirp
+                                    
     _sounds["plant"] = _make_sound(_chirp(300, 600, 0.2, volume=0.2), 0.35)
 
-    # Harvest sound: bright rising chirp + ding
+                                               
     harvest = _chirp(400, 900, 0.15, volume=0.25)
     ding = _sine_wave(880, 0.3, volume=0.2, fade_out=0.8)
     pad = [0] * len(harvest)
@@ -106,33 +106,33 @@ def _generate_all() -> None:
                                        pad[:0] + ding)]
     _sounds["harvest"] = _make_sound(combined, 0.4)
 
-    # Buy/sell sound: coin clink
+                                
     _sounds["coin"] = _make_sound(_chirp(1200, 800, 0.1, volume=0.2) +
                                    _sine_wave(800, 0.1, volume=0.15), 0.35)
 
-    # Error/deny sound: low buzz
+                                
     _sounds["deny"] = _make_sound(_sine_wave(150, 0.15, volume=0.15, fade_out=0.3), 0.3)
 
-    # Menu select
+                 
     _sounds["select"] = _make_sound(_sine_wave(660, 0.08, volume=0.15), 0.3)
 
-    # Event notification: magical ascending notes
+                                                 
     event_snd = (_sine_wave(520, 0.1, volume=0.2) +
                  _sine_wave(660, 0.1, volume=0.2) +
                  _sine_wave(880, 0.15, volume=0.25, fade_out=0.8))
     _sounds["event"] = _make_sound(event_snd, 0.4)
 
-    # Refill water
+                  
     refill = _sine_wave(300, 0.1, volume=0.15) + _sine_wave(400, 0.15, volume=0.2)
     _sounds["refill"] = _make_sound(refill, 0.35)
 
-    # Footstep (very subtle)
+                            
     _sounds["step"] = _make_sound(_noise_burst(0.06, volume=0.05), 0.15)
 
 
-# ---------------------------------------------------------------------------
-# Public API
-# ---------------------------------------------------------------------------
+                                                                             
+            
+                                                                             
 
 def play(name: str) -> None:
     """Play a named sound effect."""

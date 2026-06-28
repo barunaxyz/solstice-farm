@@ -28,17 +28,17 @@ Jalankan langsung file ini untuk lihat demo:
 import os
 import pygame
 
-# ---------------------------------------------------------------------------
-# KONFIGURASI
-# ---------------------------------------------------------------------------
+                                                                             
+             
+                                                                             
 SPRITESHEET_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "player_spritesheet.png")
-COLS = 6          # jumlah frame per baris
-ROWS = 4          # jumlah baris (arah) di spritesheet
-SCALE = 0.5       # ukuran asli tiap frame ~219x392 px (cukup besar), 0.5 -> ~110x196 px
-                   # ubah sesuai kebutuhan: 1 = ukuran asli, 2 = 2x lebih besar, dst.
+COLS = 6                                  
+ROWS = 4                                              
+SCALE = 0.5                                                                             
+                                                                                     
 
-ANIM_SPEED = 0.12     # detik per pergantian frame saat jalan
-PLAYER_SPEED = 220    # kecepatan gerak (pixel per detik)
+ANIM_SPEED = 0.12                                            
+PLAYER_SPEED = 220                                       
 
 
 def load_spritesheet(path, cols, rows, scale=1):
@@ -76,7 +76,7 @@ class Player(pygame.sprite.Sprite):
         frames_down = raw_frames[0]
         frames_left = raw_frames[1]
         frames_up = raw_frames[3]
-        # arah kanan = flip horizontal dari frame kiri
+                                                      
         frames_right = [pygame.transform.flip(f, True, False) for f in frames_left]
 
         self.frames = {
@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
             "up": frames_up,
         }
 
-        self.direction = "down"     # arah hadap default
+        self.direction = "down"                         
         self.frame_index = 0
         self.anim_timer = 0.0
         self.is_moving = False
@@ -94,10 +94,10 @@ class Player(pygame.sprite.Sprite):
         self.image = self.frames[self.direction][self.frame_index]
         self.rect = self.image.get_rect(center=(x, y))
 
-        # hitbox lebih kecil dari gambar supaya tabrakan terasa lebih natural
+                                                                             
         self.hitbox = self.rect.inflate(-self.rect.width * 0.55, -self.rect.height * 0.1)
 
-    # ------------------------------------------------------------------
+                                                                        
     def handle_input(self, keys):
         """Baca tombol arah / WASD, hasilkan vektor arah (dx, dy)."""
         dx = dy = 0
@@ -111,7 +111,7 @@ class Player(pygame.sprite.Sprite):
             dy += 1
         return dx, dy
 
-    # ------------------------------------------------------------------
+                                                                        
     def update(self, dt, keys, bounds=None):
         """
         Panggil tiap frame game loop.
@@ -123,11 +123,11 @@ class Player(pygame.sprite.Sprite):
         self.is_moving = dx != 0 or dy != 0
 
         if dx != 0 and dy != 0:
-            # normalisasi supaya gerak diagonal tidak lebih cepat
+                                                                 
             dx *= 0.7071
             dy *= 0.7071
 
-        # tentukan arah hadap berdasarkan input terakhir
+                                                        
         if dx < 0:
             self.direction = "left"
         elif dx > 0:
@@ -147,7 +147,7 @@ class Player(pygame.sprite.Sprite):
 
         self._animate(dt)
 
-    # ------------------------------------------------------------------
+                                                                        
     def _animate(self, dt):
         if self.is_moving:
             self.anim_timer += dt
@@ -156,16 +156,16 @@ class Player(pygame.sprite.Sprite):
                 frame_count = len(self.frames[self.direction])
                 self.frame_index = (self.frame_index + 1) % frame_count
         else:
-            # diam -> kembali ke frame pertama (pose berdiri)
+                                                             
             self.frame_index = 0
             self.anim_timer = 0.0
 
         self.image = self.frames[self.direction][self.frame_index]
 
 
-# ---------------------------------------------------------------------------
-# DEMO - jalankan file ini langsung untuk mencoba karakternya
-# ---------------------------------------------------------------------------
+                                                                             
+                                                             
+                                                                             
 if __name__ == "__main__":
     pygame.init()
 
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     player = Player(SCREEN_W // 2, SCREEN_H // 2)
     all_sprites = pygame.sprite.Group(player)
 
-    bg_color = (34, 139, 34)  # hijau rumput, ganti sesuai selera
+    bg_color = (34, 139, 34)                                     
     running = True
     while running:
         dt = clock.tick(60) / 1000.0

@@ -5,9 +5,9 @@ from __future__ import annotations
 from settings import CROPS, SUN_GROWTH_SCHEDULE
 
 
-# ---------------------------------------------------------------------------
-# Sunlight multiplier helper
-# ---------------------------------------------------------------------------
+                                                                             
+                            
+                                                                             
 
 def get_sun_multiplier(time_fraction: float) -> float:
     """Return the crop growth speed multiplier for the current time of day."""
@@ -24,9 +24,9 @@ def get_sun_multiplier(time_fraction: float) -> float:
     return schedule[-1][1]
 
 
-# ---------------------------------------------------------------------------
-# Crop
-# ---------------------------------------------------------------------------
+                                                                             
+      
+                                                                             
 
 class Crop:
     """A single crop planted in a soil tile."""
@@ -34,16 +34,16 @@ class Crop:
     def __init__(self, crop_type: str) -> None:
         self.crop_type = crop_type
         self.data = CROPS[crop_type]
-        self.progress: float = 0.0        # 0.0 → 1.0
+        self.progress: float = 0.0                   
         self.watered: bool = False
         self.times_watered: int = 0
         self.water_needed: int = self.data["water_needed"]
-        self.needs_water: bool = True      # starts needing initial watering
+        self.needs_water: bool = True                                       
         self.ready: bool = False
         self.is_solstice_only: bool = self.data.get("special") == "solstice_only"
-        self.event_boost: float = 1.0      # temporary boost from events
+        self.event_boost: float = 1.0                                   
 
-        # Water checkpoints (evenly distributed through growth)
+                                                               
         self._water_points: list[float] = []
         if self.water_needed > 1:
             for i in range(1, self.water_needed):
@@ -74,16 +74,16 @@ class Crop:
 
         multiplier = get_sun_multiplier(time_fraction)
 
-        # Solstice Bloom: only grows when sun multiplier >= 1.0 (peak hours)
+                                                                            
         if self.is_solstice_only and multiplier < 1.0:
-            return  # dormant outside peak sun
+            return                            
 
-        # Apply event boost (e.g. Sunburst)
+                                           
         multiplier *= self.event_boost
 
         self.progress += (dt / self.data["grow_time"]) * multiplier
 
-        # Check next water checkpoint
+                                     
         if self._next_wp < len(self._water_points):
             threshold = self._water_points[self._next_wp]
             if self.progress >= threshold:
@@ -93,7 +93,7 @@ class Crop:
                 self._next_wp += 1
                 return
 
-        # Check completion
+                          
         if self.progress >= 1.0:
             self.progress = 1.0
             self.ready = True

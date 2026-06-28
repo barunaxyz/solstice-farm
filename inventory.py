@@ -11,24 +11,24 @@ class Inventory:
     def __init__(self) -> None:
         self.money: int = STARTING_MONEY
 
-        # Seeds: {crop_type: count}
+                                   
         self.seeds: dict[str, int] = {
             "lettuce": 5,
             "tomato": 3,
         }
 
-        # Harvested crops: {crop_type: count}
+                                             
         self.harvested: dict[str, int] = {}
 
-        # Stats tracking
+                        
         self.total_planted: int = 0
         self.total_harvested: int = 0
         self.total_earned: int = 0
         self.total_spent: int = 0
 
-    # ------------------------------------------------------------------
-    # Seeds
-    # ------------------------------------------------------------------
+                                                                        
+           
+                                                                        
 
     def has_seeds(self, crop_type: str) -> bool:
         return self.seeds.get(crop_type, 0) > 0
@@ -45,9 +45,9 @@ class Inventory:
     def add_seeds(self, crop_type: str, count: int) -> None:
         self.seeds[crop_type] = self.seeds.get(crop_type, 0) + count
 
-    # ------------------------------------------------------------------
-    # Harvested crops
-    # ------------------------------------------------------------------
+                                                                        
+                     
+                                                                        
 
     def add_harvest(self, crop_type: str, count: int = 1) -> None:
         self.harvested[crop_type] = self.harvested.get(crop_type, 0) + count
@@ -56,9 +56,9 @@ class Inventory:
     def get_harvest_count(self, crop_type: str) -> int:
         return self.harvested.get(crop_type, 0)
 
-    # ------------------------------------------------------------------
-    # Economy
-    # ------------------------------------------------------------------
+                                                                        
+             
+                                                                        
 
     def can_afford(self, cost: int) -> bool:
         return self.money >= cost

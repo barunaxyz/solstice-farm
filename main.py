@@ -19,13 +19,10 @@ async def main() -> None:
 
     while True:
         dt = clock.tick(FPS) / 1000.0
-        dt = min(dt, 0.05)  # cap to avoid huge jumps
+        dt = min(dt, 0.05)                           
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 sys.exit()
             game.handle_event(event)

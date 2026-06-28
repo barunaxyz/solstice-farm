@@ -53,15 +53,15 @@ class ParticleSystem:
             sy = int(p.y) + cam_oy
             size = max(1, int(p.size * alpha))
 
-            # Draw with alpha via a tiny surface
+                                                
             dot = pygame.Surface((size * 2, size * 2), pygame.SRCALPHA)
             a = int(alpha * 220)
             pygame.draw.circle(dot, (*p.color, a), (size, size), size)
             surface.blit(dot, (sx - size, sy - size))
 
-    # ------------------------------------------------------------------
-    # Effect spawners
-    # ------------------------------------------------------------------
+                                                                        
+                     
+                                                                        
 
     def emit_water(self, wx: float, wy: float) -> None:
         """Blue water splash."""
@@ -127,9 +127,9 @@ class ParticleSystem:
                 Particle(wx, wy, vx, vy, life, color, 4, 120)
             )
 
-    # ------------------------------------------------------------------
-    # Ambient / event effects
-    # ------------------------------------------------------------------
+                                                                        
+                             
+                                                                        
 
     def emit_fireflies(self, screen_w: int, screen_h: int,
                        cam_x: float, cam_y: float, count: int = 2) -> None:

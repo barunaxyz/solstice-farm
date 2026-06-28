@@ -13,7 +13,7 @@ import pygame
 _initialized: bool = False
 _playing: bool = False
 
-# Path to the music file
+                        
 _MUSIC_DIR = os.path.join(os.path.dirname(__file__), "assets", "sounds")
 _MUSIC_FILE = os.path.join(_MUSIC_DIR, "Sunlight_on_the_Porch.ogg")
 
